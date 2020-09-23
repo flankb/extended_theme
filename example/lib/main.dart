@@ -1,32 +1,45 @@
+import 'package:extended_theme/extended_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
+import 'theme.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /// Read last theme from [SharedPreferences] for simple example
+  /// Avoid [async] in main for production. Try to use FutureBuilder or other async widgets
+  final initialTheme = await _readLastTheme();
+  final controller = ThemeController<MyCustomTheme>(initialTheme, appThemeData);
+
+  runApp(MyApp(
+    themeController: controller,
+  ));
+}
+
+Future<String> _readLastTheme() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  final themeStr = prefs.getString('PREF_THEME') ?? GreenLight;
+  return themeStr;
 }
 
 class MyApp extends StatelessWidget {
+  final ThemeController<MyCustomTheme> themeController;
+
+  const MyApp({Key key, this.themeController}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    return InheritedThemeNotifier<MyCustomTheme>(
+      controller: themeController,
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: context.extTheme<MyCustomTheme>().themeData.materialTheme,
+          home: MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      }),
     );
   }
 }
@@ -108,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
