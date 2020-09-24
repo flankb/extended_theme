@@ -10,7 +10,7 @@ void main() async {
   /// Read last theme from [SharedPreferences] for simple example
   /// Avoid [async] in main for production. Try to use FutureBuilder or other async widgets
   final initialTheme = await _readLastTheme();
-  final controller = ThemeController<MyCustomTheme>(initialTheme, appThemeData);
+  final controller = ThemeController<AppTheme>(initialTheme, appThemeData);
 
   runApp(MyApp(
     themeController: controller,
@@ -24,19 +24,40 @@ Future<String> _readLastTheme() async {
   return themeStr;
 }
 
+/*
+class AppThemeController extends ThemeController<MyCustomTheme> {
+  AppThemeController(
+      String initialTheme, Map<String, MyCustomTheme> availableThemes)
+      : super(initialTheme, availableThemes);
+}*/
+
+/*class I extends InheritedThemeNotifier<MyCustomTheme> {
+  const I({Key key, @required Widget child, @required controller})
+      : super(key: key, child: child, controller: controller);
+}*/
+
+/*
+  /// Returns the options passed by the nearest [ThemeProvider] up the widget tree.
+  /// Call as `ThemeProvider.optionsOf<ColorClass>(context)` to get the
+  /// returned object casted to the required type.
+  static T optionsOf<T extends AppThemeOptions>(BuildContext context) {
+    return InheritedThemeController.of(context).theme.options as T;
+  }
+*/
+
 class MyApp extends StatelessWidget {
-  final ThemeController<MyCustomTheme> themeController;
+  final ThemeController<AppTheme> themeController;
 
   const MyApp({Key key, this.themeController}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return InheritedThemeNotifier<MyCustomTheme>(
+    return InheritedThemeNotifier<AppTheme>(
       controller: themeController,
       child: Builder(builder: (context) {
         return MaterialApp(
           title: 'Flutter Demo',
-          theme: context.extTheme<MyCustomTheme>().themeData.materialTheme,
+          theme: context.t2().theme.materialTheme,
           home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
       }),

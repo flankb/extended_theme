@@ -13,20 +13,20 @@ class ExtendedTheme {
 }
 
 class ThemeController<TTheme extends ExtendedTheme> extends ChangeNotifier {
-  String _appTheme;
+  String _themeId;
   Map<String, TTheme> _availableThemes;
 
   ThemeController(String initialTheme, Map<String, TTheme> availableThemes) {
-    _appTheme = initialTheme;
+    _themeId = initialTheme;
     _availableThemes = availableThemes;
   }
 
-  String get theme => _appTheme;
-  TTheme get themeData => _availableThemes[_appTheme];
+  String get themeId => _themeId;
+  TTheme get theme => _availableThemes[_themeId];
 
   updateTheme(String newTheme) {
-    if (_appTheme != newTheme) {
-      _appTheme = newTheme;
+    if (_themeId != newTheme) {
+      _themeId = newTheme;
 
       debugPrint("Updated theme: " + newTheme.toString());
 
@@ -51,8 +51,18 @@ class InheritedThemeNotifier<TTheme extends ExtendedTheme>
   }
 }
 
+/*
 extension InheritedThemeExtensions on BuildContext {
-  ThemeController<T> extTheme<T extends ExtendedTheme>() {
+  ThemeController<MyCustomTheme> t() {
+    return this
+        .dependOnInheritedWidgetOfExactType<
+            InheritedThemeNotifier<MyCustomTheme>>()
+        .controller;
+  }
+}*/
+
+extension InheritedThemeExtensions on BuildContext {
+  ThemeController<T> t<T extends ExtendedTheme>() {
     return this
         .dependOnInheritedWidgetOfExactType<InheritedThemeNotifier<T>>()
         .controller;
