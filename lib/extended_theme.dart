@@ -35,36 +35,26 @@ class ThemeController<TTheme extends ExtendedTheme> extends ChangeNotifier {
   }
 }
 
-class InheritedThemeNotifier<TTheme extends ExtendedTheme>
+class ExtentedThemeProvider<TTheme extends ExtendedTheme>
     extends InheritedNotifier<ThemeController<TTheme>> {
   final ThemeController<TTheme> controller;
 
-  const InheritedThemeNotifier(
+  const ExtentedThemeProvider(
       {Key key, @required Widget child, @required this.controller})
       : super(key: key, child: child, notifier: controller);
 
   static ThemeController<TTheme> of<TTheme extends ExtendedTheme>(
       BuildContext context) {
     return context
-        .dependOnInheritedWidgetOfExactType<InheritedThemeNotifier<TTheme>>()
+        .dependOnInheritedWidgetOfExactType<ExtentedThemeProvider<TTheme>>()
         .controller;
   }
 }
 
-/*
-extension InheritedThemeExtensions on BuildContext {
-  ThemeController<MyCustomTheme> t() {
-    return this
-        .dependOnInheritedWidgetOfExactType<
-            InheritedThemeNotifier<MyCustomTheme>>()
-        .controller;
-  }
-}*/
-
-extension InheritedThemeExtensions on BuildContext {
+extension ExtendedThemeExtensions on BuildContext {
   ThemeController<T> t<T extends ExtendedTheme>() {
     return this
-        .dependOnInheritedWidgetOfExactType<InheritedThemeNotifier<T>>()
+        .dependOnInheritedWidgetOfExactType<ExtentedThemeProvider<T>>()
         .controller;
   }
 }
