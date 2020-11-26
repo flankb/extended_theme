@@ -9,14 +9,14 @@ class AppTheme extends ExtendedTheme {
 
   AppTheme(ThemeData materialTheme,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
-      : super(materialTheme: materialTheme);
+      : super(materialThemeData: materialTheme);
 }
 
-extension InheritedThemeExtensions on BuildContext {
-  ThemeController<AppTheme> t2() {
-    return this.t<AppTheme>();
-  }
-}
+// extension InheritedThemeExtensions on BuildContext {
+//   ThemeController<AppTheme> t2() {
+//     return this.t<AppTheme>();
+//   }
+// }
 
 ThemeData baseTheme = ThemeData(
   brightness: Brightness.light,

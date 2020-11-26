@@ -4,16 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'theme.dart';
 
+// typedef ThemedWidgetBuilder<TTheme extends ExtendedTheme> = Widget Function(
+//     BuildContext context, TTheme theme);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Read last theme from [SharedPreferences] for simple example
   /// Avoid [async] in main method for production. Try to use FutureBuilder or other async widgets
   final initialTheme = await _readLastTheme();
-  final controller = ThemeController<AppTheme>(initialTheme, appThemes);
+  //final controller = ThemeController<AppTheme>(initialTheme, appThemes);
 
   runApp(MyApp(
-    themeController: controller,
+    //themeController: controller,
+    initialTheme: initialTheme,
   ));
 }
 
@@ -25,21 +29,26 @@ Future<String> _readLastTheme() async {
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeController<AppTheme> themeController;
+  //final ThemeController<AppTheme> themeController;
+  final String initialTheme;
 
-  const MyApp({Key key, this.themeController}) : super(key: key);
+  const MyApp({Key key, this.initialTheme}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ExtentedThemeProvider<AppTheme>(
-      controller: themeController,
-      child: Builder(builder: (context) {
+    return StatefulThemeProvider<AppTheme>(
+      initialTheme: initialTheme,
+      availableThemes: appThemes,
+      themeBuilder: (context, appTheme) {
+        debugPrint('Builder build');
+
         return MaterialApp(
           title: 'Flutter Demo',
-          theme: context.t2().theme.materialTheme,
+          theme: appTheme
+              .materialThemeData, // appTheme.materialTheme, //context.t2().theme.materialTheme,
           home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
-      }),
+      },
     );
   }
 }
@@ -121,10 +130,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: _incrementCounter,
+        backgroundColor: (StatefulThemeProvider.of<AppTheme>(context).theme)
+            .buttonPauseColor,
+
+        // context
+        //     .t2()
+        //     .theme
+        //     .buttonPauseColor, //Theme.of(context).primaryColor,
+        onPressed: () {
+          final themeKeys = appThemes.keys.toList();
+          StatefulThemeProvider.of<AppTheme>(context)
+              .updateTheme(themeKeys[_counter % themeKeys.length]);
+
+          _incrementCounter();
+        },
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.colorize),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
