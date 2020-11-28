@@ -54,31 +54,39 @@ class StatefulThemeProvider<TTheme extends ExtendedTheme>
   StatefulThemeProviderState<TTheme> createState() =>
       StatefulThemeProviderState<TTheme>();
 
-  static StatefulThemeProviderState<TTheme> of<TTheme extends ExtendedTheme>(
+  static ThemeFacade<TTheme> of<TTheme extends ExtendedTheme>(
       BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<InheritedTheme<TTheme>>()
-        .stateTheme;
+        .stateTheme
+        .themeFacade;
   }
 }
 
 class ThemeFacade<TTheme extends ExtendedTheme> {
-  String themeId;
-  TTheme theme;
-  updateTheme(String newTheme) {}
+  final StatefulThemeProviderState<TTheme> _facilityState;
+
+  ThemeFacade(this._facilityState);
+
+  String get currentThemeId => _facilityState.themeId;
+  TTheme get currentTheme => _facilityState.theme;
+
+  updateThemeById(String themeId) {
+    _facilityState.updateThemeById(themeId);
+  }
 }
 
 class StatefulThemeProviderState<TTheme extends ExtendedTheme>
     extends State<StatefulThemeProvider<TTheme>> {
-  //ThemeController<TTheme> _controller;
   String _themeId;
+  ThemeFacade<TTheme> _facade;
 
   String get themeId => _themeId;
   TTheme get theme => widget.availableThemes[_themeId];
 
-  // TODO Сделать фасад для стейта!
+  ThemeFacade<TTheme> get themeFacade => _facade;
 
-  updateTheme(String newTheme) {
+  updateThemeById(String newTheme) {
     if (_themeId != newTheme) {
       setState(() {
         _themeId = newTheme;
@@ -91,8 +99,8 @@ class StatefulThemeProviderState<TTheme extends ExtendedTheme>
   @override
   void initState() {
     super.initState();
+    _facade = ThemeFacade(this);
     _themeId = widget.initialTheme;
-    //_controller = ThemeController(widget.initialTheme, widget.availableThemes);
   }
 
   @override

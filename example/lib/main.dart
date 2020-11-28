@@ -130,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: (StatefulThemeProvider.of<AppTheme>(context).theme)
+        backgroundColor: StatefulThemeProvider.of<AppTheme>(context)
+            .currentTheme
             .buttonPauseColor,
 
         // context
@@ -140,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           final themeKeys = appThemes.keys.toList();
           StatefulThemeProvider.of<AppTheme>(context)
-              .updateTheme(themeKeys[_counter % themeKeys.length]);
+              .updateThemeById(themeKeys[_counter % themeKeys.length]);
 
           _incrementCounter();
         },
