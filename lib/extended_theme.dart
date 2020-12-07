@@ -17,36 +17,21 @@ class ExtendedTheme {
       : assert(materialThemeData != null || cupertinoThemeData != null);
 }
 
-// class ThemeController<TTheme extends ExtendedTheme> extends ChangeNotifier {
-//   String _themeId;
-//   Map<String, TTheme> _availableThemes;
-
-//   ThemeController(String initialTheme, Map<String, TTheme> availableThemes) {
-//     _themeId = initialTheme;
-//     _availableThemes = availableThemes;
-//   }
-
-//   String get themeId => _themeId;
-//   TTheme get theme => _availableThemes[_themeId];
-
-//   updateTheme(String newTheme) {
-//     if (_themeId != newTheme) {
-//       _themeId = newTheme;
-
-//       debugPrint("Updated theme: " + newTheme.toString());
-
-//       notifyListeners();
-//     }
-//   }
-// }
-
-/// Widget for managing the application themes.
+/// Widget for managing the application themes
 /// Wrap in it your root widget to manage the application theme
 class StatefulThemeProvider<TTheme extends ExtendedTheme>
     extends StatefulWidget {
+  /// Defines the original theme from which your application will be started.
+  /// If you use this field, you should also define the theme map - [availableThemes]
   final String initialThemeId;
+
+  /// Predefined themes (skins) for you app
   final Map<String, TTheme> availableThemes;
+
+  /// Initial theme if you do not want to use predefined themes
   final TTheme initialTheme;
+
+  /// Root widget builder
   final ThemedWidgetBuilder<TTheme> themeBuilder;
 
   const StatefulThemeProvider(
@@ -181,28 +166,3 @@ class InheritedTheme<TTheme extends ExtendedTheme> extends InheritedWidget {
     return true;
   }
 }
-
-// class ExtentedThemeNotifier<TTheme extends ExtendedTheme>
-//     extends InheritedNotifier<ThemeController<TTheme>> {
-//   //final ThemedWidgetBuilder builder;
-//   final ThemeController<TTheme> controller;
-
-//   const ExtentedThemeNotifier(
-//       {Key key, @required Widget child, @required this.controller})
-//       : super(key: key, child: child, notifier: controller);
-
-//   // static ThemeController<TTheme> of<TTheme extends ExtendedTheme>(
-//   //     BuildContext context) {
-//   //   return context
-//   //       .dependOnInheritedWidgetOfExactType<ExtentedThemeNotifier<TTheme>>()
-//   //       .controller;
-//   // }
-// }
-
-// extension ExtendedThemeExtensions on BuildContext {
-//   ThemeController<T> t<T extends ExtendedTheme>() {
-//     return this
-//         .dependOnInheritedWidgetOfExactType<ExtentedThemeNotifier<T>>()
-//         .controller;
-//   }
-// }
