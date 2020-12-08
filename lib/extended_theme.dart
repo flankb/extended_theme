@@ -8,18 +8,42 @@ import 'package:flutter/material.dart';
 typedef ThemedWidgetBuilder<TTheme extends ExtendedTheme> = Widget Function(
     BuildContext context, TTheme theme);
 
+/// Base class for themes
+/// You can use this class directly without creating any descendants
 class ExtendedTheme {
-  final ThemeData materialThemeData;
-  final CupertinoThemeData cupertinoThemeData;
+  final ThemeData materialTheme;
+  final CupertinoThemeData cupertinoTheme;
 
   @mustCallSuper
-  ExtendedTheme({this.materialThemeData, this.cupertinoThemeData})
-      : assert(materialThemeData != null || cupertinoThemeData != null);
+  ExtendedTheme({this.materialTheme, this.cupertinoTheme})
+      : assert(materialTheme != null || cupertinoTheme != null);
+
+  ExtendedTheme copyWith({
+    ThemeData materialTheme,
+    CupertinoThemeData cupertinoTheme,
+  }) {
+    return ExtendedTheme(
+      materialTheme: materialTheme ?? this.materialTheme,
+      cupertinoTheme: cupertinoTheme ?? this.cupertinoTheme,
+    );
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is ExtendedTheme &&
+        o.materialTheme == materialTheme &&
+        o.cupertinoTheme == cupertinoTheme;
+  }
+
+  @override
+  int get hashCode => materialTheme.hashCode ^ cupertinoTheme.hashCode;
 }
 
 /// Widget for managing the application themes
 /// Wrap in it your root widget to manage the application theme
-class StatefulThemeProvider<TTheme extends ExtendedTheme>
+class ExtendedThemeProvider<TTheme extends ExtendedTheme>
     extends StatefulWidget {
   /// Defines the original theme from which your application will be started.
   /// If you use this field, you should also define the theme map - [availableThemes]
@@ -34,7 +58,7 @@ class StatefulThemeProvider<TTheme extends ExtendedTheme>
   /// Root widget builder
   final ThemedWidgetBuilder<TTheme> themeBuilder;
 
-  const StatefulThemeProvider(
+  const ExtendedThemeProvider(
       {Key key,
       this.initialThemeId,
       this.availableThemes,
@@ -43,14 +67,14 @@ class StatefulThemeProvider<TTheme extends ExtendedTheme>
       : super(key: key);
 
   @override
-  _StatefulThemeProviderState<TTheme> createState() =>
-      _StatefulThemeProviderState<TTheme>();
+  _ExtendedThemeProviderState<TTheme> createState() =>
+      _ExtendedThemeProviderState<TTheme>();
 
   /// Link to theme controller
   static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
       BuildContext context) {
     return context
-        .dependOnInheritedWidgetOfExactType<InheritedTheme<TTheme>>()
+        .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()
         .stateTheme
         .themeFacade;
   }
@@ -58,7 +82,7 @@ class StatefulThemeProvider<TTheme extends ExtendedTheme>
 
 /// A controller that stores a link to theme and allows you to update it
 class ThemeHolder<TTheme extends ExtendedTheme> {
-  final _StatefulThemeProviderState<TTheme> _facilityState;
+  final _ExtendedThemeProviderState<TTheme> _facilityState;
 
   ThemeHolder(this._facilityState);
 
@@ -81,8 +105,8 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
   }
 }
 
-class _StatefulThemeProviderState<TTheme extends ExtendedTheme>
-    extends State<StatefulThemeProvider<TTheme>> {
+class _ExtendedThemeProviderState<TTheme extends ExtendedTheme>
+    extends State<ExtendedThemeProvider<TTheme>> {
   String _themeId;
   TTheme _theme;
 
@@ -146,7 +170,7 @@ class _StatefulThemeProviderState<TTheme extends ExtendedTheme>
   Widget build(BuildContext context) {
     debugPrint('_StatefulThemeProviderState build');
 
-    return InheritedTheme<TTheme>(
+    return _InheritedTheme<TTheme>(
       stateTheme: this,
       child: Builder(builder: (contextCool) {
         return widget.themeBuilder(context, theme);
@@ -155,14 +179,15 @@ class _StatefulThemeProviderState<TTheme extends ExtendedTheme>
   }
 }
 
-class InheritedTheme<TTheme extends ExtendedTheme> extends InheritedWidget {
-  final _StatefulThemeProviderState<TTheme> stateTheme;
+class _InheritedTheme<TTheme extends ExtendedTheme> extends InheritedWidget {
+  final _ExtendedThemeProviderState<TTheme> stateTheme;
 
-  InheritedTheme({Key key, this.stateTheme, Widget child})
+  _InheritedTheme({Key key, this.stateTheme, Widget child})
       : super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
+  bool updateShouldNotify(covariant _InheritedTheme<TTheme> oldWidget) {
+    return oldWidget.stateTheme.themeId != stateTheme.themeId ||
+        oldWidget.stateTheme.theme != stateTheme.theme; //true;
   }
 }

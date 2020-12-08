@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StatefulThemeProvider<AppTheme>(
-      initialTheme: initialTheme,
+    return ExtendedThemeProvider<AppTheme>(
+      initialThemeId: initialTheme,
       availableThemes: appThemes,
       themeBuilder: (context, appTheme) {
         debugPrint('Builder build');
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: appTheme
-              .materialThemeData, // appTheme.materialTheme, //context.t2().theme.materialTheme,
+              .materialTheme, // appTheme.materialTheme, //context.t2().theme.materialTheme,
           home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
       },
@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: StatefulThemeProvider.of<AppTheme>(context)
+        backgroundColor: ExtendedThemeProvider.of<AppTheme>(context)
             .currentTheme
             .buttonPauseColor,
 
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //     .buttonPauseColor, //Theme.of(context).primaryColor,
         onPressed: () {
           final themeKeys = appThemes.keys.toList();
-          StatefulThemeProvider.of<AppTheme>(context)
+          ExtendedThemeProvider.of<AppTheme>(context)
               .updateThemeById(themeKeys[_counter % themeKeys.length]);
 
           _incrementCounter();

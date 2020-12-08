@@ -9,7 +9,7 @@ class AppTheme extends ExtendedTheme {
 
   AppTheme(ThemeData materialTheme,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
-      : super(materialThemeData: materialTheme);
+      : super(materialTheme: materialTheme);
 }
 
 // extension InheritedThemeExtensions on BuildContext {
