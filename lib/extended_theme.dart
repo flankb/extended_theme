@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 typedef ThemedWidgetBuilder<TTheme extends ExtendedTheme> = Widget Function(
     BuildContext context, TTheme theme);
 
-/// Base class for themes
+/// Base class for themes.
 /// You can use this class directly without creating any descendants
 class ExtendedTheme {
   final ThemeData material;
@@ -100,9 +100,9 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
         .themeFacade;
   }
 
-  /// Current theme, use this in the Widget tree for getting of theme properties
+  /// Current theme, use this in the Widget tree for getting theme properties
   static TTheme themeOf<TTheme extends ExtendedTheme>(BuildContext context) {
-    return ThemeHolder.of(context).theme;
+    return ThemeHolder.of<TTheme>(context).theme;
   }
 }
 
@@ -173,8 +173,8 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
 
     return _InheritedTheme<TTheme>(
       stateTheme: this,
-      child: Builder(builder: (contextCool) {
-        return widget.themeBuilder(context, theme);
+      child: Builder(builder: (themeContext) {
+        return widget.themeBuilder(themeContext, theme);
       }),
     );
   }

@@ -7,9 +7,9 @@ class AppTheme extends ExtendedTheme {
   final Color buttonPauseColor;
   final Color subtitleColor;
 
-  AppTheme(ThemeData materialTheme,
+  AppTheme(ThemeData material,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
-      : super(material: materialTheme);
+      : super(material: material);
 }
 
 // static S of(BuildContext context) {
