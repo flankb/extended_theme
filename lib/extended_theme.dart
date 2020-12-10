@@ -3,8 +3,6 @@ library extended_theme;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Generic typedef:
-// https://stackoverflow.com/questions/51092028/how-to-typedef-a-generic-function
 typedef ThemedWidgetBuilder<TTheme extends ExtendedTheme> = Widget Function(
     BuildContext context, TTheme theme);
 
@@ -67,17 +65,6 @@ class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
 
   @override
   _ThemeScopeState<TTheme> createState() => _ThemeScopeState<TTheme>();
-
-  // /// Link to theme controller
-  // static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
-  //     BuildContext context) {
-  //   return context
-  //       .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()
-  //       .stateTheme
-  //       .themeFacade;
-  // }
-
-  //AppTheme.holderOf(context)
 }
 
 /// A controller that stores a link to theme and allows you to update it
