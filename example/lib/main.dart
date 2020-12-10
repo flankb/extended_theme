@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ExtendedThemeProvider<AppTheme>(
+    return ThemeScope<AppTheme>(
       initialThemeId: initialTheme,
       availableThemes: appThemes,
       themeBuilder: (context, appTheme) {
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: appTheme
-              .materialTheme, // appTheme.materialTheme, //context.t2().theme.materialTheme,
+              .material, // appTheme.materialTheme, //context.t2().theme.materialTheme,
           home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
       },
@@ -130,9 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ExtendedThemeProvider.of<AppTheme>(context)
-            .currentTheme
-            .buttonPauseColor,
+        backgroundColor:
+            ThemeHolder.themeOf<AppTheme>(context).buttonPauseColor,
 
         // context
         //     .t2()
@@ -140,12 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
         //     .buttonPauseColor, //Theme.of(context).primaryColor,
         onPressed: () {
           final themeKeys = appThemes.keys.toList();
-          ExtendedThemeProvider.of<AppTheme>(context)
+          ThemeHolder.of<AppTheme>(context)
               .updateThemeById(themeKeys[_counter % themeKeys.length]);
 
           _incrementCounter();
         },
-        tooltip: 'Increment',
+        tooltip: 'Next theme',
         child: Icon(Icons.colorize),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

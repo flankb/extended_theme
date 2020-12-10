@@ -11,20 +11,20 @@ typedef ThemedWidgetBuilder<TTheme extends ExtendedTheme> = Widget Function(
 /// Base class for themes
 /// You can use this class directly without creating any descendants
 class ExtendedTheme {
-  final ThemeData materialTheme;
-  final CupertinoThemeData cupertinoTheme;
+  final ThemeData material;
+  final CupertinoThemeData cupertino;
 
   @mustCallSuper
-  ExtendedTheme({this.materialTheme, this.cupertinoTheme})
-      : assert(materialTheme != null || cupertinoTheme != null);
+  ExtendedTheme({this.material, this.cupertino})
+      : assert(material != null || cupertino != null);
 
   ExtendedTheme copyWith({
-    ThemeData materialTheme,
-    CupertinoThemeData cupertinoTheme,
+    ThemeData material,
+    CupertinoThemeData cupertino,
   }) {
     return ExtendedTheme(
-      materialTheme: materialTheme ?? this.materialTheme,
-      cupertinoTheme: cupertinoTheme ?? this.cupertinoTheme,
+      material: material ?? this.material,
+      cupertino: cupertino ?? this.cupertino,
     );
   }
 
@@ -33,18 +33,17 @@ class ExtendedTheme {
     if (identical(this, o)) return true;
 
     return o is ExtendedTheme &&
-        o.materialTheme == materialTheme &&
-        o.cupertinoTheme == cupertinoTheme;
+        o.material == material &&
+        o.cupertino == cupertino;
   }
 
   @override
-  int get hashCode => materialTheme.hashCode ^ cupertinoTheme.hashCode;
+  int get hashCode => material.hashCode ^ cupertino.hashCode;
 }
 
 /// Widget for managing the application themes
 /// Wrap in it your root widget to manage the application theme
-class ExtendedThemeProvider<TTheme extends ExtendedTheme>
-    extends StatefulWidget {
+class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
   /// Defines the original theme from which your application will be started.
   /// If you use this field, you should also define the theme map - [availableThemes]
   final String initialThemeId;
@@ -58,7 +57,7 @@ class ExtendedThemeProvider<TTheme extends ExtendedTheme>
   /// Root widget builder
   final ThemedWidgetBuilder<TTheme> themeBuilder;
 
-  const ExtendedThemeProvider(
+  const ThemeScope(
       {Key key,
       this.initialThemeId,
       this.availableThemes,
@@ -67,31 +66,32 @@ class ExtendedThemeProvider<TTheme extends ExtendedTheme>
       : super(key: key);
 
   @override
-  _ExtendedThemeProviderState<TTheme> createState() =>
-      _ExtendedThemeProviderState<TTheme>();
+  _ThemeScopeState<TTheme> createState() => _ThemeScopeState<TTheme>();
 
-  /// Link to theme controller
-  static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
-      BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()
-        .stateTheme
-        .themeFacade;
-  }
+  // /// Link to theme controller
+  // static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
+  //     BuildContext context) {
+  //   return context
+  //       .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()
+  //       .stateTheme
+  //       .themeFacade;
+  // }
+
+  //AppTheme.holderOf(context)
 }
 
 /// A controller that stores a link to theme and allows you to update it
 class ThemeHolder<TTheme extends ExtendedTheme> {
-  final _ExtendedThemeProviderState<TTheme> _facilityState;
+  final _ThemeScopeState<TTheme> _facilityState;
 
   ThemeHolder(this._facilityState);
 
   /// Current theme identifier if you use predefined map of themes
   /// Equals null if you update theme in runtime by method [updateTheme]
-  String get currentThemeId => _facilityState.themeId;
+  String get themeId => _facilityState.themeId;
 
   /// Current theme. Use this in the Widget tree for getting of theme properties
-  TTheme get currentTheme => _facilityState.theme;
+  TTheme get theme => _facilityState.theme;
 
   /// Update the theme by the identifier that is
   /// contained in the map of themes you have defined
@@ -103,10 +103,24 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
   updateTheme(TTheme theme) {
     _facilityState.updateTheme(theme);
   }
+
+  /// Link to theme controller object, use this for managing themes
+  static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
+      BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()
+        .stateTheme
+        .themeFacade;
+  }
+
+  /// Current theme, use this in the Widget tree for getting of theme properties
+  static TTheme themeOf<TTheme extends ExtendedTheme>(BuildContext context) {
+    return ThemeHolder.of(context).theme;
+  }
 }
 
-class _ExtendedThemeProviderState<TTheme extends ExtendedTheme>
-    extends State<ExtendedThemeProvider<TTheme>> {
+class _ThemeScopeState<TTheme extends ExtendedTheme>
+    extends State<ThemeScope<TTheme>> {
   String _themeId;
   TTheme _theme;
 
@@ -180,7 +194,7 @@ class _ExtendedThemeProviderState<TTheme extends ExtendedTheme>
 }
 
 class _InheritedTheme<TTheme extends ExtendedTheme> extends InheritedWidget {
-  final _ExtendedThemeProviderState<TTheme> stateTheme;
+  final _ThemeScopeState<TTheme> stateTheme;
 
   _InheritedTheme({Key key, this.stateTheme, Widget child})
       : super(key: key, child: child);

@@ -9,8 +9,12 @@ class AppTheme extends ExtendedTheme {
 
   AppTheme(ThemeData materialTheme,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
-      : super(materialTheme: materialTheme);
+      : super(material: materialTheme);
 }
+
+// static S of(BuildContext context) {
+//     return Localizations.of<S>(context, S);
+//   }
 
 // extension InheritedThemeExtensions on BuildContext {
 //   ThemeController<AppTheme> t2() {
