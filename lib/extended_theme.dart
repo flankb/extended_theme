@@ -67,7 +67,7 @@ class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
   _ThemeScopeState<TTheme> createState() => _ThemeScopeState<TTheme>();
 }
 
-/// A controller that stores a link to theme and allows you to update it
+/// A controller that stores a link to [theme] and allows you to update it
 class ThemeHolder<TTheme extends ExtendedTheme> {
   final _ThemeScopeState<TTheme> _facilityState;
 
@@ -147,6 +147,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
   void initState() {
     super.initState();
 
+    // TODO Что-то необходимо продублировать в didUpdateWidget
     if (widget.initialThemeId != null && widget.initialTheme != null) {
       throw Exception(
           "It is not allowed to specify both the identifier and an instance of the theme!");
