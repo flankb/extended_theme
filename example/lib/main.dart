@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: appTheme.material,
-          home: MyHomePage(title: 'Flutter Demo Home Page'),
+          home: MyHomePage(title: 'Flutter Extended Theme'),
         );
       },
     );
@@ -74,7 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'You have changed the theme many times:',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize:
+                      ThemeHolder.themeOf<AppTheme>(context).centerFontSize),
             ),
             Text(
               '$_counter',
