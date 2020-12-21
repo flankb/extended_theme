@@ -82,12 +82,12 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
 
   /// Update the theme by the identifier that is
   /// contained in the map of themes you have defined
-  updateThemeById(String themeId) {
+  void updateThemeById(String themeId) {
     _facilityState.updateThemeById(themeId);
   }
 
   /// Update the theme by theme object
-  updateTheme(TTheme theme) {
+  void updateTheme(TTheme theme) {
     _facilityState.updateTheme(theme);
   }
 
@@ -121,22 +121,22 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
 
   void _checkThemeId(String newThemeId) {
     if (!widget.availableThemes.containsKey(newThemeId)) {
-      throw Exception("Themes does not contains this key!");
+      throw Exception('Themes does not contains this key!');
     }
   }
 
-  updateThemeById(String newThemeId) {
+  void updateThemeById(String newThemeId) {
     if (_themeId != newThemeId) {
       _checkThemeId(newThemeId);
 
       setState(() {
         _themeId = newThemeId;
-        debugPrint("Updated theme: " + newThemeId.toString());
+        debugPrint('Updated theme: ' + newThemeId.toString());
       });
     }
   }
 
-  updateTheme(TTheme theme) {
+  void updateTheme(TTheme theme) {
     setState(() {
       _themeId = null;
       _theme = theme;
@@ -150,13 +150,13 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
     // TODO Что-то необходимо продублировать в didUpdateWidget
     if (widget.initialThemeId != null && widget.initialTheme != null) {
       throw Exception(
-          "It is not allowed to specify both the identifier and an instance of the theme!");
+          'It is not allowed to specify both the identifier and an instance of the theme!');
     }
 
     if (widget.initialThemeId != null) {
       if (widget.availableThemes == null) {
         throw Exception(
-            "When passing an identifier, you need to specify the map of themes!");
+            'When passing an identifier, you need to specify the map of themes!');
       } else {
         _checkThemeId(widget.initialThemeId);
       }
