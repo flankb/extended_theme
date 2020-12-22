@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeScope<AppTheme>(
-      initialThemeId: initialTheme,
+      themeId: initialTheme,
       availableThemes: appThemes,
       themeBuilder: (context, appTheme) {
         debugPrint('Builder build');

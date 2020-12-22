@@ -11,7 +11,7 @@ class TestAppRuntime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeScope<TestTheme>(
-      initialTheme: initialTheme,
+      theme: initialTheme,
       themeBuilder: (context, appTheme) {
         return MaterialApp(
           title: 'Flutter Extended Theme Test (Runtime)',

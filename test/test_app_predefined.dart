@@ -11,7 +11,7 @@ class TestAppPredefined extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeScope<TestTheme>(
-      initialThemeId: initialThemeId,
+      themeId: initialThemeId,
       availableThemes: appThemes,
       themeBuilder: (context, appTheme) {
         return MaterialApp(
