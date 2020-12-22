@@ -44,22 +44,22 @@ class ExtendedTheme {
 class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
   /// Defines the original theme from which your application will be started.
   /// If you use this field, you should also define the theme map - [availableThemes]
-  final String initialThemeId;
+  final String themeId;
 
   /// Predefined themes (skins) for you app
   final Map<String, TTheme> availableThemes;
 
   /// Initial theme if you do not want to use predefined themes
-  final TTheme initialTheme;
+  final TTheme theme;
 
   /// Root widget builder
   final ThemedWidgetBuilder<TTheme> themeBuilder;
 
   const ThemeScope(
       {Key key,
-      this.initialThemeId,
+      this.themeId,
       this.availableThemes,
-      this.initialTheme,
+      this.theme,
       this.themeBuilder})
       : super(key: key);
 
@@ -119,6 +119,25 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
 
   ThemeHolder<TTheme> get themeFacade => _facade;
 
+  void _initData() {
+    if (widget.themeId != null && widget.theme != null) {
+      throw Exception(
+          'It is not allowed to specify both the identifier and an instance of the theme!');
+    }
+
+    if (widget.themeId != null) {
+      if (widget.availableThemes == null) {
+        throw Exception(
+            'When passing an identifier, you need to specify the map of themes!');
+      } else {
+        _checkThemeId(widget.themeId);
+      }
+    }
+
+    _themeId = widget.themeId;
+    _theme = widget.theme;
+  }
+
   void _checkThemeId(String newThemeId) {
     if (!widget.availableThemes.containsKey(newThemeId)) {
       throw Exception('Themes does not contains this key!');
@@ -131,7 +150,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
 
       setState(() {
         _themeId = newThemeId;
-        debugPrint('Updated theme: ' + newThemeId.toString());
+        //debugPrint('Updated theme: ' + newThemeId.toString());
       });
     }
   }
@@ -147,31 +166,18 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
   void initState() {
     super.initState();
 
-    // TODO Что-то необходимо продублировать в didUpdateWidget
-    if (widget.initialThemeId != null && widget.initialTheme != null) {
-      throw Exception(
-          'It is not allowed to specify both the identifier and an instance of the theme!');
-    }
-
-    if (widget.initialThemeId != null) {
-      if (widget.availableThemes == null) {
-        throw Exception(
-            'When passing an identifier, you need to specify the map of themes!');
-      } else {
-        _checkThemeId(widget.initialThemeId);
-      }
-    }
-
     _facade = ThemeHolder(this);
+    _initData();
+  }
 
-    _themeId = widget.initialThemeId;
-    _theme = widget.initialTheme;
+  @override
+  void didUpdateWidget(ThemeScope oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _initData();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('_StatefulThemeProviderState build');
-
     return _InheritedTheme<TTheme>(
       stateTheme: this,
       child: Builder(builder: (themeContext) {
