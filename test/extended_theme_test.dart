@@ -64,31 +64,22 @@ void main() {
   });
 
   testWidgets('Little themes scope test', (WidgetTester tester) async {
+    Container _findContainer(String key) {
+      return find.byKey(ValueKey(key)).evaluate().first.widget as Container;
+    }
+
     await tester.pumpWidget(TestAppLittleScope());
 
-    // final theme = TestTheme(ThemeData(accentColor: Colors.blueGrey),
-    //     subtitleColor: Colors.grey);
+    var container1 = _findContainer('cnt_1');
+    expect(container1.color, Colors.red);
 
-    // await tester.pumpWidget(TestAppRuntime(initialTheme: theme));
+    var container2 = _findContainer('cnt_2');
+    expect(container2.color, Colors.pink);
 
-    // MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
-    // expect(app.theme.accentColor, equals(Colors.blueGrey));
+    await tester.tap(find.text('Update theme'));
+    await tester.pump();
 
-    // ThemeScope<TestTheme> themeScope =
-    //     find.byType(typeOf<ThemeScope<TestTheme>>()).evaluate().first.widget;
-    // expect(themeScope.availableThemes == null, true);
-    // expect(themeScope.themeId == null, true);
-
-    // await tester.pump();
-    // await tester.tap(find.byType(FlatButton));
-    // await tester.pump();
-
-    // Container container = find.byType(Container).evaluate().first.widget;
-    // expect(container.color, equals(Colors.red));
-
-    // final textWithThemeInfo =
-    //     find.byKey(ValueKey('themeIdText')).evaluate().first.widget as Text;
-
-    // expect(textWithThemeInfo.data, equals(Colors.yellow.value.toString()));
+    expect(_findContainer('cnt_1').color, Colors.green);
+    expect(_findContainer('cnt_2').color, Colors.brown);
   });
 }

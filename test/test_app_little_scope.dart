@@ -1,12 +1,10 @@
 import 'package:extended_theme/extended_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'test_themes.dart';
-
 class TestAppLittleScope extends StatelessWidget {
-  final TestTheme initialTheme;
+  //final TestTheme initialTheme;
 
-  const TestAppLittleScope({Key key, this.initialTheme}) : super(key: key);
+  const TestAppLittleScope({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
