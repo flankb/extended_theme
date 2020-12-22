@@ -8,7 +8,7 @@ Easy managing themes for Flutter apps. Define your theme classes or use Material
 ## Usage
 
 ### Using predefined themes (skins)
-1. Define your theme class that extends `ExtendedTheme` (Optional)
+1. Define your theme class that extends `ExtendedTheme` (Optional, bacause you may to use class `ExtendedTheme` out the box)
 ```dart
 class AppTheme extends ExtendedTheme {
   final Color shadowColor;
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeScope<AppTheme>(
-      initialThemeId: initialTheme,
+      themeId: initialTheme,
       // Skins that your defined on previous step
       availableThemes: appThemes,
       themeBuilder: (context, appTheme) {
@@ -113,7 +113,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeScope<AppTheme>(
-      initialTheme: initialTheme,
+      theme: initialTheme,
       themeBuilder: (context, appTheme) {
         return MaterialApp(
           title: 'Flutter Demo',
@@ -150,6 +150,34 @@ class AppTheme extends ExtendedTheme {
 
   AppTheme(ThemeData material, this.materialDark)
       : super(material: material);
+}
+
+```
+
+Then pass both themes to MaterialApp constructor:
+```dart
+class MyApp extends StatelessWidget {
+  final String initialTheme;
+
+  const MyApp({Key key, this.initialTheme}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeScope<AppTheme>(
+      themeId: initialTheme,
+      availableThemes: appThemes,
+      themeBuilder: (context, appTheme) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          // Set default (light) theme
+          theme: appTheme.material,
+          // Set dark theme
+          darkTheme: appTheme.materialDark,
+          home: MyHomePage(title: 'Flutter Extended Theme'),
+        );
+      },
+    );
+  }
 }
 
 ```
