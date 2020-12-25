@@ -1,7 +1,7 @@
 name: extended_theme
 description: Managing themes for Flutter apps
-version: 0.0.2
-homepage:
+version: 0.1.0
+homepage: https://github.com/flankb/extended_theme
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
