@@ -1,21 +1,21 @@
 # extended_theme
 
-Easy managing themes for Flutter apps. Define your theme classes or use Material and Cupertino themes out the box! 
+Easy management of themes for Flutter apps. Create theme sets, extend standard themes, update themes in runtime.
+Define your theme classes or use Material and Cupertino themes out the box! 
 
-![](.assets/screencast.gif)
-![](.assets/screenshot.png)
+![](.assets/screencast_small.gif)
 
 ## Usage
 
 ### Using predefined themes (skins)
-1. Define your theme class that extends `ExtendedTheme` (Optional, bacause you may to use class `ExtendedTheme` out the box)
+1. Define your theme class that extends `ExtendedTheme` (Optional, bacause you may to use class `ExtendedTheme` out the box) Do not forget call super constructor and pass them `material` or `cupertino` theme data.
 ```dart
 class AppTheme extends ExtendedTheme {
+  final double centerFontSize;
   final Color shadowColor;
   final Color buttonPauseColor;
   final Color subtitleColor;
-  final double centerFontSize;
-
+  
   AppTheme(ThemeData material, this.centerFontSize,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
       : super(material: material);
@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
       themeBuilder: (context, appTheme) {
         return MaterialApp(
           title: 'Flutter Demo',
+          // Set material Theme Data
           theme: appTheme.material,
           home: MyHomePage(title: 'Flutter Extended Theme'),
         );
@@ -108,7 +109,7 @@ class MyApp extends StatelessWidget {
   final AppTheme initialTheme = AppTheme(ThemeData.light(), 22, 
     subtitleColor: const Color(0xff8e8e8e));
 
-  const MyApp({Key key, this.initialTheme}) : super(key: key);
+  MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +118,7 @@ class MyApp extends StatelessWidget {
       themeBuilder: (context, appTheme) {
         return MaterialApp(
           title: 'Flutter Demo',
+          // Set material Theme Data
           theme: appTheme.material,
           home: MyHomePage(title: 'Flutter Extended Theme'),
         );
@@ -169,9 +171,9 @@ class MyApp extends StatelessWidget {
       themeBuilder: (context, appTheme) {
         return MaterialApp(
           title: 'Flutter Demo',
-          // Set default (light) theme
+          // Set default (light) theme data
           theme: appTheme.material,
-          // Set dark theme
+          // Set dark theme data
           darkTheme: appTheme.materialDark,
           home: MyHomePage(title: 'Flutter Extended Theme'),
         );
