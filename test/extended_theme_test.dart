@@ -26,7 +26,7 @@ void main() {
 
     await tester.pump();
 
-    await tester.tap(find.byType(FlatButton));
+    await tester.tap(find.byType(TextButton));
 
     // Rebuild the widget after the state has changed.
     await tester.pump();
