@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme extends ExtendedTheme {
-  final Color shadowColor;
-  final Color buttonPauseColor;
-  final Color subtitleColor;
+  final Color? shadowColor;
+  final Color? buttonPauseColor;
+  final Color? subtitleColor;
   final double centerFontSize;
 
   AppTheme(ThemeData material, this.centerFontSize,
@@ -78,9 +78,9 @@ Future<String> _readLastTheme() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String initialTheme;
+  final String? initialTheme;
 
-  const MyApp({Key key, this.initialTheme}) : super(key: key);
+  const MyApp({Key? key, this.initialTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +101,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: Center(
         child: Column(
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize:
-                      ThemeHolder.themeOf<AppTheme>(context).centerFontSize),
+                      ThemeHolder.themeOf<AppTheme>(context)!.centerFontSize),
             ),
             Text(
               '$_counter',
@@ -143,10 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor:
-            ThemeHolder.themeOf<AppTheme>(context).buttonPauseColor,
+            ThemeHolder.themeOf<AppTheme>(context)!.buttonPauseColor,
         onPressed: () {
           final themeKeys = appThemes.keys.toList();
-          ThemeHolder.of<AppTheme>(context)
+          ThemeHolder.of<AppTheme>(context)!
               .updateThemeById(themeKeys[_counter % themeKeys.length]);
 
           _incrementCounter();
