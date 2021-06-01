@@ -171,7 +171,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
   void initState() {
     super.initState();
 
-    _facade = ThemeHolder(this as _ThemeScopeState<Never>);
+    _facade = ThemeHolder(this);
     _initData();
   }
 
