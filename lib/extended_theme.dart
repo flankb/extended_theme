@@ -41,7 +41,7 @@ class ExtendedTheme {
 
 /// Widget for managing the application themes
 /// Wrap in it your root widget to manage the application theme
-class ThemeScope<TTheme extends ExtendedTheme?> extends StatefulWidget {
+class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
   /// Defines the original theme from which your application will be started.
   /// If you use this field, you should also define the theme map - [availableThemes]
   final String? themeId;
@@ -68,7 +68,7 @@ class ThemeScope<TTheme extends ExtendedTheme?> extends StatefulWidget {
 }
 
 /// A controller that stores a link to [theme] and allows you to update it
-class ThemeHolder<TTheme extends ExtendedTheme?> {
+class ThemeHolder<TTheme extends ExtendedTheme> {
   final _ThemeScopeState<TTheme> _facilityState;
 
   ThemeHolder(this._facilityState);
@@ -106,16 +106,21 @@ class ThemeHolder<TTheme extends ExtendedTheme?> {
   }
 }
 
-class _ThemeScopeState<TTheme extends ExtendedTheme?>
-    extends State<ThemeScope<TTheme?>> {
+class _ThemeScopeState<TTheme extends ExtendedTheme>
+    extends State<ThemeScope<TTheme>> {
   String? _themeId;
   TTheme? _theme;
 
   ThemeHolder<TTheme>? _facade;
 
   String? get themeId => _themeId;
-  TTheme? get theme =>
-      _themeId != null ? widget.availableThemes![_themeId!] : _theme;
+  TTheme get theme {
+    if (_themeId != null) {
+      return widget.availableThemes![_themeId!]!;
+    }
+
+    return _theme!;
+  }
 
   ThemeHolder<TTheme>? get themeFacade => _facade;
 
@@ -172,7 +177,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme?>
 
   @override
   void didUpdateWidget(ThemeScope oldWidget) {
-    super.didUpdateWidget(oldWidget as ThemeScope<TTheme*>);
+    super.didUpdateWidget(oldWidget as ThemeScope<TTheme>);
     _initData();
   }
 
@@ -187,7 +192,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme?>
   }
 }
 
-class _InheritedTheme<TTheme extends ExtendedTheme?> extends InheritedWidget {
+class _InheritedTheme<TTheme extends ExtendedTheme> extends InheritedWidget {
   final _ThemeScopeState<TTheme>? stateTheme;
 
   _InheritedTheme({Key? key, this.stateTheme, required Widget child})
