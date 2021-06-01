@@ -17,11 +17,12 @@ class TestAppRuntime extends StatelessWidget {
           title: 'Flutter Extended Theme Test (Runtime)',
           theme: appTheme.material,
           home: Container(
-            color: ThemeHolder.themeOf<TestTheme>(context)!.material!.accentColor,
+            color:
+                ThemeHolder.themeOf<TestTheme>(context)!.material!.accentColor,
             child: Column(
               children: [
                 Center(
-                    child: FlatButton(
+                    child: TextButton(
                   onPressed: () {
                     final newTheme = TestTheme(
                         ThemeData(accentColor: Colors.red),

@@ -69,7 +69,7 @@ class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
                 width: 150,
               );
             }),
-        FlatButton(
+        TextButton(
             onPressed: () {
               setState(() {
                 _someTheme = ExtendedTheme(

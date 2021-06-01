@@ -23,7 +23,7 @@ class TestAppPredefined extends StatelessWidget {
             child: Column(
               children: [
                 Center(
-                    child: FlatButton(
+                    child: TextButton(
                   onPressed: () {
                     ThemeHolder.of<TestTheme>(context)!
                         .updateThemeById(GreenDark);
