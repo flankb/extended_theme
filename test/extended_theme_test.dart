@@ -13,12 +13,12 @@ void main() {
   testWidgets('Skins test', (WidgetTester tester) async {
     await tester.pumpWidget(TestAppPredefined(initialThemeId: MagentaLight));
 
-    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
-    expect(app.theme.primaryColor.value, equals(0xffcc0066));
+    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    expect(app.theme!.primaryColor.value, equals(0xffcc0066));
 
     ThemeScope<TestTheme> themeScope =
-        find.byType(typeOf<ThemeScope<TestTheme>>()).evaluate().first.widget;
-    expect(themeScope.availableThemes.entries.isNotEmpty, true);
+        find.byType(typeOf<ThemeScope<TestTheme>>()).evaluate().first.widget as ThemeScope<TestTheme>;
+    expect(themeScope.availableThemes!.entries.isNotEmpty, true);
     expect(themeScope.themeId, equals(MagentaLight));
 
     await tester.pump();
@@ -28,8 +28,8 @@ void main() {
     // Rebuild the widget after the state has changed.
     await tester.pump();
 
-    Container container = find.byType(Container).evaluate().first.widget;
-    expect(container.color, equals(appThemes[GreenDark].material.primaryColor));
+    Container container = find.byType(Container).evaluate().first.widget as Container;
+    expect(container.color, equals(appThemes[GreenDark]!.material!.primaryColor));
 
     final textWithThemeId =
         find.byKey(ValueKey('themeIdText')).evaluate().first.widget as Text;
@@ -42,11 +42,11 @@ void main() {
 
     await tester.pumpWidget(TestAppRuntime(initialTheme: theme));
 
-    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
-    expect(app.theme.accentColor, equals(Colors.blueGrey));
+    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    expect(app.theme!.accentColor, equals(Colors.blueGrey));
 
     ThemeScope<TestTheme> themeScope =
-        find.byType(typeOf<ThemeScope<TestTheme>>()).evaluate().first.widget;
+        find.byType(typeOf<ThemeScope<TestTheme>>()).evaluate().first.widget as ThemeScope<TestTheme>;
     expect(themeScope.availableThemes == null, true);
     expect(themeScope.themeId == null, true);
 
@@ -54,7 +54,7 @@ void main() {
     await tester.tap(find.byType(FlatButton));
     await tester.pump();
 
-    Container container = find.byType(Container).evaluate().first.widget;
+    Container container = find.byType(Container).evaluate().first.widget as Container;
     expect(container.color, equals(Colors.red));
 
     final textWithThemeInfo =

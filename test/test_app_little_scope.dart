@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TestAppLittleScope extends StatelessWidget {
   //final TestTheme initialTheme;
 
-  const TestAppLittleScope({Key key}) : super(key: key);
+  const TestAppLittleScope({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +16,15 @@ class TestAppLittleScope extends StatelessWidget {
 }
 
 class LittleHomeTestPage extends StatefulWidget {
-  LittleHomeTestPage({Key key}) : super(key: key);
+  LittleHomeTestPage({Key? key}) : super(key: key);
 
   @override
   _LittleHomeTestPageState createState() => _LittleHomeTestPageState();
 }
 
 class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
-  ExtendedTheme _someTheme;
-  ExtendedTheme _someTheme2;
+  ExtendedTheme? _someTheme;
+  ExtendedTheme? _someTheme2;
 
   @override
   void initState() {
@@ -44,13 +44,13 @@ class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
         Text('Some text'),
         ThemeScope(
             theme: _someTheme,
-            themeBuilder: (context, theme) {
+            themeBuilder: (context, dynamic theme) {
               return Theme(
-                data: _someTheme.material,
+                data: _someTheme!.material!,
                 child: Container(
                   key: ValueKey('cnt_1'),
-                  color: ThemeHolder.themeOf<ExtendedTheme>(context)
-                      .material
+                  color: ThemeHolder.themeOf<ExtendedTheme>(context)!
+                      .material!
                       .primaryColor,
                   height: 50,
                   width: 50,
@@ -59,11 +59,11 @@ class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
             }),
         ThemeScope(
             theme: _someTheme2,
-            themeBuilder: (context, theme) {
+            themeBuilder: (context, dynamic theme) {
               return Container(
                 key: ValueKey('cnt_2'),
-                color: ThemeHolder.themeOf<ExtendedTheme>(context)
-                    .material
+                color: ThemeHolder.themeOf<ExtendedTheme>(context)!
+                    .material!
                     .primaryColor,
                 height: 20,
                 width: 150,

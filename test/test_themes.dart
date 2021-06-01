@@ -4,9 +4,9 @@ import 'package:extended_theme/extended_theme.dart';
 import 'package:flutter/material.dart';
 
 class TestTheme extends ExtendedTheme {
-  final Color shadowColor;
-  final Color buttonPauseColor;
-  final Color subtitleColor;
+  final Color? shadowColor;
+  final Color? buttonPauseColor;
+  final Color? subtitleColor;
 
   TestTheme(ThemeData material,
       {this.shadowColor, this.buttonPauseColor, this.subtitleColor})

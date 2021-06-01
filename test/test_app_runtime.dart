@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'test_themes.dart';
 
 class TestAppRuntime extends StatelessWidget {
-  final TestTheme initialTheme;
+  final TestTheme? initialTheme;
 
-  const TestAppRuntime({Key key, this.initialTheme}) : super(key: key);
+  const TestAppRuntime({Key? key, this.initialTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class TestAppRuntime extends StatelessWidget {
           title: 'Flutter Extended Theme Test (Runtime)',
           theme: appTheme.material,
           home: Container(
-            color: ThemeHolder.themeOf<TestTheme>(context).material.accentColor,
+            color: ThemeHolder.themeOf<TestTheme>(context)!.material!.accentColor,
             child: Column(
               children: [
                 Center(
@@ -27,14 +27,14 @@ class TestAppRuntime extends StatelessWidget {
                         ThemeData(accentColor: Colors.red),
                         subtitleColor: Colors.yellow);
 
-                    ThemeHolder.of<TestTheme>(context).updateTheme(newTheme);
+                    ThemeHolder.of<TestTheme>(context)!.updateTheme(newTheme);
                   },
                   child: Text('Change theme'),
                 )),
                 Text(
-                  ThemeHolder.of<TestTheme>(context)
-                      .theme
-                      .subtitleColor
+                  ThemeHolder.of<TestTheme>(context)!
+                      .theme!
+                      .subtitleColor!
                       .value
                       .toString(),
                   key: ValueKey('themeIdText'),
