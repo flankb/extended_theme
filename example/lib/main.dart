@@ -8,10 +8,13 @@ class AppTheme extends ExtendedTheme {
   final Color? shadowColor;
   final Color? buttonPauseColor;
   final Color? subtitleColor;
-  final double centerFontSize;
+  final double? centerFontSize;
 
-  AppTheme(ThemeData material, this.centerFontSize,
-      {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
+  AppTheme(ThemeData material,
+      {this.shadowColor,
+      this.buttonPauseColor,
+      this.subtitleColor,
+      this.centerFontSize})
       : super(material: material);
 }
 
@@ -34,28 +37,26 @@ const BlueDark = 'BlueDark';
 
 final appThemes = {
   MagentaLight: AppTheme(
-      baseTheme.copyWith(primaryColor: const Color(0xffcc0066)), 28,
-      subtitleColor: const Color(0xff8e8e8e)),
+      baseTheme.copyWith(primaryColor: const Color(0xffcc0066)),
+      subtitleColor: const Color(0xff8e8e8e),
+      centerFontSize: 28),
 
   MagentaDark: AppTheme(
-      baseThemeDark.copyWith(primaryColor: const Color(0xffcc0066)), 14,
-      subtitleColor: const Color(0xffA5A5A5)),
+      baseThemeDark.copyWith(primaryColor: const Color(0xffcc0066)),
+      subtitleColor: const Color(0xffA5A5A5),
+      centerFontSize: 14),
 
-  GreenLight: AppTheme(baseTheme.copyWith(primaryColor: Colors.green), 22,
-      subtitleColor: const Color(0xff8e8e8e)),
+  GreenLight: AppTheme(baseTheme.copyWith(primaryColor: Colors.green),
+      subtitleColor: const Color(0xff8e8e8e), centerFontSize: 22),
 
-  GreenDark: AppTheme(
-      baseThemeDark.copyWith(primaryColor: Colors.green[700]), 12,
-      subtitleColor: const Color(0xffA5A5A5)),
+  GreenDark: AppTheme(baseThemeDark.copyWith(primaryColor: Colors.green[700]),
+      subtitleColor: const Color(0xffA5A5A5), centerFontSize: 12),
 
-  BlueLight: AppTheme(
-    baseTheme.copyWith(primaryColor: Colors.blue),
-    14,
-    subtitleColor: const Color(0xff8e8e8e),
-  ),
+  BlueLight: AppTheme(baseTheme.copyWith(primaryColor: Colors.blue),
+      subtitleColor: const Color(0xff8e8e8e), centerFontSize: 14),
 
-  BlueDark: AppTheme(baseThemeDark.copyWith(primaryColor: Colors.blue[700]), 10,
-      subtitleColor: const Color(0xffA5A5A5)) //
+  BlueDark: AppTheme(baseThemeDark.copyWith(primaryColor: Colors.blue[700]),
+      subtitleColor: const Color(0xffA5A5A5), centerFontSize: 10) //
 };
 
 void main() async {
