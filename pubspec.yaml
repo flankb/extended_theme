@@ -1,6 +1,6 @@
 name: extended_theme
 description: Managing themes for Flutter apps. Creating theme sets, extending standard themes, and updating themes in runtime.
-version: 0.1.1
+version: 0.2.0
 homepage: https://github.com/flankb/extended_theme
 
 environment:
