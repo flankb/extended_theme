@@ -18,7 +18,7 @@ class TestAppRuntime extends StatelessWidget {
           theme: appTheme.material,
           home: Container(
             color:
-                ThemeHolder.themeOf<TestTheme>(context)!.material!.accentColor,
+                ThemeHolder.themeOf<TestTheme>(context).material!.accentColor,
             child: Column(
               children: [
                 Center(
@@ -28,13 +28,13 @@ class TestAppRuntime extends StatelessWidget {
                         ThemeData(accentColor: Colors.red),
                         subtitleColor: Colors.yellow);
 
-                    ThemeHolder.of<TestTheme>(context)!.updateTheme(newTheme);
+                    ThemeHolder.of<TestTheme>(context).updateTheme(newTheme);
                   },
                   child: Text('Change theme'),
                 )),
                 Text(
-                  ThemeHolder.of<TestTheme>(context)!
-                      .theme!
+                  ThemeHolder.of<TestTheme>(context)
+                      .theme
                       .subtitleColor!
                       .value
                       .toString(),

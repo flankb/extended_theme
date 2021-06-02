@@ -11,20 +11,22 @@ Define your theme classes or use Material and Cupertino themes out the box!
 1. Define your theme class that extends `ExtendedTheme` (Optional, bacause you may to use class `ExtendedTheme` out the box) Do not forget call super constructor and pass them `material` or `cupertino` theme data.
 ```dart
 class AppTheme extends ExtendedTheme {
-  final double centerFontSize;
-  final Color shadowColor;
-  final Color buttonPauseColor;
-  final Color subtitleColor;
-  
-  AppTheme(ThemeData material, this.centerFontSize,
-      {this.shadowColor, this.buttonPauseColor, this.subtitleColor})
+  final Color? shadowColor;
+  final Color? buttonPauseColor;
+  final Color? subtitleColor;
+  final double? centerFontSize;
+
+  AppTheme(ThemeData material,
+      {this.shadowColor,
+      this.buttonPauseColor,
+      this.subtitleColor,
+      this.centerFontSize})
       : super(material: material);
 }
 
 ```
 2. Define themes configuration (skins)
 ```dart
-
 const MagentaLight = 'MagentaLight';
 const MagentaDark = 'MagentaDark';
 const GreenLight = 'GreenLight';
@@ -33,22 +35,27 @@ const BlueLight = 'BlueLight';
 const BlueDark = 'BlueDark';
 
 final appThemes = {
-  MagentaLight:
-      AppTheme(ThemeData.light(), 28, subtitleColor: const Color(0xff8e8e8e)),
-  MagentaDark:
-      AppTheme(ThemeData.dark(), 14, subtitleColor: const Color(0xffA5A5A5)),
-  GreenLight:
-      AppTheme(ThemeData.light(), 22, subtitleColor: const Color(0xff8e8e8e)),
-  GreenDark:
-      AppTheme(ThemeData.dark(), 12, subtitleColor: const Color(0xffA5A5A5)),
-  BlueLight: AppTheme(
-    ThemeData.light(),
-    14,
-    subtitleColor: const Color(0xff8e8e8e),
-  ),
-  BlueDark: AppTheme(
-      ThemeData.dark().copyWith(primaryColor: Colors.blue[700]), 10,
-      subtitleColor: const Color(0xffA5A5A5))
+  MagentaLight: AppTheme(
+      ThemeData.light().copyWith(primaryColor: const Color(0xffcc0066)),
+      subtitleColor: const Color(0xff8e8e8e),
+      centerFontSize: 28),
+
+  MagentaDark: AppTheme(
+      ThemeData.dark().copyWith(primaryColor: const Color(0xffcc0066)),
+      subtitleColor: const Color(0xffA5A5A5),
+      centerFontSize: 14),
+
+  GreenLight: AppTheme(ThemeData.light().copyWith(primaryColor: Colors.green),
+      subtitleColor: const Color(0xff8e8e8e), centerFontSize: 22),
+
+  GreenDark: AppTheme(ThemeData.dark().copyWith(primaryColor: Colors.green[700]),
+      subtitleColor: const Color(0xffA5A5A5), centerFontSize: 12),
+
+  BlueLight: AppTheme(ThemeData.light().copyWith(primaryColor: Colors.blue),
+      subtitleColor: const Color(0xff8e8e8e), centerFontSize: 14),
+
+  BlueDark: AppTheme(ThemeData.dark().copyWith(primaryColor: Colors.blue[700]),
+      subtitleColor: const Color(0xffA5A5A5), centerFontSize: 10) //
 };
 
 ```
@@ -59,7 +66,7 @@ class MyApp extends StatelessWidget {
   // Read this value from SharedPrefs for example
   final String initialTheme;
 
-  const MyApp({Key key, this.initialTheme}) : super(key: key);
+  const MyApp({Key key, required this.initialTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +113,7 @@ Sometimes the use of predefined themes imposes a limitation. For example, if you
 2. Build your initial theme and pass it to `ThemeScope` constructor:
 ```dart
 class MyApp extends StatelessWidget {
-  final AppTheme initialTheme = AppTheme(ThemeData.light(), 22, 
+  final AppTheme initialTheme = AppTheme(ThemeData.light(), centerFontSize: 22, 
     subtitleColor: const Color(0xff8e8e8e));
 
   MyApp({Key key}) : super(key: key);
@@ -132,7 +139,7 @@ class MyApp extends StatelessWidget {
 3. Update theme in runtime
 ```dart
 // Build new theme
-final newTheme = AppTheme(ThemeData.dark(), 12, 
+final newTheme = AppTheme(ThemeData.dark(), centerFontSize: 12, 
     subtitleColor: const Color(0xff8e8e8e));
 
 // Update theme 
@@ -161,7 +168,7 @@ Then pass both themes to MaterialApp constructor:
 class MyApp extends StatelessWidget {
   final String initialTheme;
 
-  const MyApp({Key key, this.initialTheme}) : super(key: key);
+  const MyApp({Key key, required this.initialTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

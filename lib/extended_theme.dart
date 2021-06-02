@@ -78,7 +78,7 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
   String? get themeId => _facilityState.themeId;
 
   /// Current theme. Use this in the Widget tree for getting of theme properties
-  TTheme? get theme => _facilityState.theme;
+  TTheme get theme => _facilityState.theme;
 
   /// Update the theme by the identifier that is
   /// contained in the map of themes you have defined
@@ -92,7 +92,7 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
   }
 
   /// Link to theme controller object, use this for managing themes
-  static ThemeHolder<TTheme>? of<TTheme extends ExtendedTheme>(
+  static ThemeHolder<TTheme> of<TTheme extends ExtendedTheme>(
       BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<_InheritedTheme<TTheme>>()!
@@ -101,8 +101,8 @@ class ThemeHolder<TTheme extends ExtendedTheme> {
   }
 
   /// Current theme, use this in the Widget tree for getting theme properties
-  static TTheme? themeOf<TTheme extends ExtendedTheme>(BuildContext context) {
-    return ThemeHolder.of<TTheme>(context)!.theme;
+  static TTheme themeOf<TTheme extends ExtendedTheme>(BuildContext context) {
+    return ThemeHolder.of<TTheme>(context).theme;
   }
 }
 
@@ -111,7 +111,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
   String? _themeId;
   TTheme? _theme;
 
-  ThemeHolder<TTheme>? _facade;
+  late ThemeHolder<TTheme> _facade;
 
   String? get themeId => _themeId;
   TTheme get theme {
@@ -122,7 +122,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
     return _theme!;
   }
 
-  ThemeHolder<TTheme>? get themeFacade => _facade;
+  ThemeHolder<TTheme> get themeFacade => _facade;
 
   void _initData() {
     if (widget.themeId != null && widget.theme != null) {

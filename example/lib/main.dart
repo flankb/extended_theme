@@ -79,9 +79,9 @@ Future<String> _readLastTheme() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String? initialTheme;
+  final String initialTheme;
 
-  const MyApp({Key? key, this.initialTheme}) : super(key: key);
+  const MyApp({Key? key, required this.initialTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize:
-                      ThemeHolder.themeOf<AppTheme>(context)!.centerFontSize),
+                      ThemeHolder.themeOf<AppTheme>(context).centerFontSize),
             ),
             Text(
               '$_counter',
@@ -144,10 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor:
-            ThemeHolder.themeOf<AppTheme>(context)!.buttonPauseColor,
+            ThemeHolder.themeOf<AppTheme>(context).buttonPauseColor,
         onPressed: () {
           final themeKeys = appThemes.keys.toList();
-          ThemeHolder.of<AppTheme>(context)!
+          ThemeHolder.of<AppTheme>(context)
               .updateThemeById(themeKeys[_counter % themeKeys.length]);
 
           _incrementCounter();

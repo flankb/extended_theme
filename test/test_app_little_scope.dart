@@ -49,7 +49,7 @@ class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
                 data: _someTheme!.material!,
                 child: Container(
                   key: ValueKey('cnt_1'),
-                  color: ThemeHolder.themeOf<ExtendedTheme>(context)!
+                  color: ThemeHolder.themeOf<ExtendedTheme>(context)
                       .material!
                       .primaryColor,
                   height: 50,
@@ -62,7 +62,7 @@ class _LittleHomeTestPageState extends State<LittleHomeTestPage> {
             themeBuilder: (context, dynamic theme) {
               return Container(
                 key: ValueKey('cnt_2'),
-                color: ThemeHolder.themeOf<ExtendedTheme>(context)!
+                color: ThemeHolder.themeOf<ExtendedTheme>(context)
                     .material!
                     .primaryColor,
                 height: 20,
