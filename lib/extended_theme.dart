@@ -53,14 +53,14 @@ class ThemeScope<TTheme extends ExtendedTheme> extends StatefulWidget {
   final TTheme? theme;
 
   /// Root widget builder
-  final ThemedWidgetBuilder<TTheme>? themeBuilder;
+  final ThemedWidgetBuilder<TTheme> themeBuilder;
 
   const ThemeScope(
       {Key? key,
       this.themeId,
       this.availableThemes,
       this.theme,
-      this.themeBuilder})
+      required this.themeBuilder})
       : super(key: key);
 
   @override
@@ -186,7 +186,7 @@ class _ThemeScopeState<TTheme extends ExtendedTheme>
     return _InheritedTheme<TTheme>(
       stateTheme: this,
       child: Builder(builder: (themeContext) {
-        return widget.themeBuilder!(themeContext, theme);
+        return widget.themeBuilder(themeContext, theme);
       }),
     );
   }
